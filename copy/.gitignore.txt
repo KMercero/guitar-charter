@@ -1,0 +1,83 @@
+# ─── Python ───────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+
+# ─── Virtual environments ─────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+bp_venv/
+pitch_venv/
+
+# ─── Build artifacts ──────────────────────────────────────────────────
+*.spec
+*.exe
+*.msi
+*.dmg
+*.AppImage
+
+# ─── App outputs (song folders, stems, generated charts) ──────────────
+htdemucs_6s/
+htdemucs/
+separated/
+output/
+out/
+*.chart
+*.ogg
+song.ini
+tabs.txt
+*.tmp
+*.log
+
+# ─── Audio ────────────────────────────────────────────────────────────
+*.mp3
+*.wav
+*.flac
+*.m4a
+*.aac
+*.wma
+# allow example audio if you ever add a licensed snippet
+!examples/*.wav
+!examples/*.mp3
+
+# ─── MIDI (user test files — don't commit song sources) ───────────────
+*.mid
+*.midi
+# but allow explicitly licensed example MIDI
+!examples/*.mid
+!examples/*.midi
+
+# ─── IDE / editors ────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Jupyter ──────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ─── Local secrets / config ───────────────────────────────────────────
+.env
+.env.*
+config.local.*
+secrets.*

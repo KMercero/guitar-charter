@@ -1,0 +1,307 @@
+=== XML root ===
+Root tag: GPIF, attrib: {}
+Root text (first 500 chars): 
+  
+
+=== Top-level children ===
+  <GPVersion> children=0
+  <GPRevision> children=0
+  <Encoding> children=1
+  <Score> children=20
+  <MasterTrack> children=2
+  <Tracks> children=5
+  <MasterBars> children=92
+  <Bars> children=460
+  <Voices> children=460
+  <Beats> children=1213
+  <Notes> children=531
+  <Rhythms> children=11
+  <ScoreViews> children=2
+
+=== Tracks (5) ===
+Track[0] full:
+<Track id="0">
+      <Name>
+        Lead Guitar
+      </Name>
+      <ShortName>
+        s.guit.
+      </ShortName>
+      <Color>235 152 125</Color>
+      <SystemsDefautLayout>3</SystemsDefautLayout>
+      <SystemsLayout>2</SystemsLayout>
+      <PalmMute>0</PalmMute>
+      <PlayingStyle>Default</PlayingStyle>
+      <UseOneChannelPerString />
+      <IconId>24</IconId>
+      <InstrumentSet>
+        <Name>Distortion Guitar</Name>
+        <Type>electricGuitar</Type>
+        <LineCount>5</LineCount>
+        <Elements>
+          <Element>
+            <Name>Pitched</Name>
+            <Type>pitched</Type>
+            <SoundbankName />
+            <Articulations>
+              <Articulation>
+                <Name />
+                <StaffLine>0</StaffLine>
+                <Noteheads>noteheadBlack noteheadHalf noteheadWhole</Noteheads>
+                <TechniquePlacement>outside</TechniquePlacement>
+                <TechniqueSymbol />
+                <InputMidiNumbers />
+                <OutputRSESound />
+                <OutputMidiNumber>0</OutputMidiNumber>
+              </Articulation>
+            </Articulations>
+          </Element>
+        </Elements>
+      </InstrumentSet>
+      <Transpose>
+        <Chromatic>0</Chromatic>
+        <Octave>-1</Octave>
+      </Transpose>
+      <RSE>
+        <ChannelStrip version="E56">
+          <Parameters>0.6 0.68 1 0.62 0.75 0.5 0.66 0.18 0.6 0 0.5 0.5 0.80 0.5 0.5 0.5</Parameters>
+        </ChannelStrip>
+      </RSE>
+      <ForcedSound>-1</ForcedSound>
+      <Sounds>
+        <Sound>
+          <Name>
+            Distortion Guitar
+          </Name>
+          <Label>
+            Distortion Guitar
+          </Label>
+          <Path>Stringed/Electric Guitars/Distortion Guitar</Path>
+          <Role>User</Role>
+          <MIDI>
+            <LSB>0</LSB>
+            <MSB>0</MSB>
+            <Program>30</Program>
+          </MIDI>
+        </Sound>
+      </Sounds>
+      <MidiConnection>
+        <Port>0</Port>
+        <PrimaryChannel />
+        <SecondaryChannel />
+        <ForeOneChannelPerString>false</ForeOneChannelPerString>
+      </MidiConnection>
+      <PlaybackState>Default</PlaybackState>
+      <AudioEngineState>RSE</AudioEngineState>
+      <Lyrics dispatched="true">
+        <Line>
+          <Text>
+            
+          </Text>
+          <Offset>0</Offset>
+        </Line>
+        <Line>
+          <Text>
+            
+          </Text>
+          <Offset>0</Offset>
+        </Line>
+        <Line>
+          <Text>
+            
+          </Text>
+          <Offset>0</Offset>
+        </Line>
+        <Line>
+          <Text>
+            
+          </Text>
+          <Offset>0</Offset>
+        </Line>
+        <Line>
+          <Text>
+            
+          </Text>
+          <Offset>0</Offset>
+        </Line>
+      </Lyrics>
+      <Staves>
+        <Staff>
+          <Properties>
+            <Property name="CapoFret">
+              <Fret>0</Fret>
+            </Property>
+            <Property name="FretCount">
+              <Number>2
+Track[0] direct children tags: ['Name', 'ShortName', 'Color', 'SystemsDefautLayout', 'SystemsLayout', 'PalmMute', 'PlayingStyle', 'UseOneChannelPerString', 'IconId', 'InstrumentSet', 'Transpose', 'RSE', 'ForcedSound', 'Sounds', 'MidiConnection', 'PlaybackState', 'AudioEngineState', 'Lyrics', 'Staves', 'Automations']
+  <Name> children=0 text=
+        Lead Guitar
+      
+  <ShortName> children=0 text=
+        s.guit.
+      
+  <Color> children=0 text=235 152 125
+  <SystemsDefautLayout> children=0 text=3
+  <SystemsLayout> children=0 text=2
+  <PalmMute> children=0 text=0
+  <PlayingStyle> children=0 text=Default
+  <UseOneChannelPerString> children=0 text=
+  <IconId> children=0 text=24
+  <InstrumentSet> children=4 text=
+        
+  <Transpose> children=2 text=
+        
+  <RSE> children=1 text=
+        
+  <ForcedSound> children=0 text=-1
+  <Sounds> children=1 text=
+        
+  <MidiConnection> children=4 text=
+        
+  <PlaybackState> children=0 text=Default
+  <AudioEngineState> children=0 text=RSE
+  <Lyrics> children=5 text=
+        
+  <Staves> children=1 text=
+        
+  <Automations> children=0 text=
+
+=== MasterBars (92) ===
+MasterBar[0]: <MasterBar>
+      <Key>
+        <AccidentalCount>0</AccidentalCount>
+        <Mode>Major</Mode>
+        <TransposeAs>Sharps</TransposeAs>
+      </Key>
+      <Time>1/8</Time>
+      <Bars>0 92 184 276 368</Bars>
+      <XProperties>
+        <XProperty id="1124139010">
+          <Int>8</Int>
+        </XProperty>
+        <XProperty id="1124139264">
+          <Int>2</Int>
+        </XProperty>
+        <XProperty id="1124139265">
+          <Int>2</Int>
+        </XProperty>
+        <XProperty id="1124139266">
+          <Int>2</Int>
+        </XProperty>
+        <XProperty id="1124139267">
+          <Int>2</Int>
+        </XProperty>
+      </XProperties>
+    </MasterBar>
+    
+MasterBar[5]: <MasterBar>
+      <Key>
+        <AccidentalCount>0</AccidentalCount>
+        <Mode>Major</Mode>
+        <TransposeAs>Sharps</TransposeAs>
+      </Key>
+      <Time>4/4</Time>
+      <Bars>5 97 189 281 373</Bars>
+      <XProperties>
+        <XProperty id="1124139010">
+          <Int>8</Int>
+        </XProperty>
+        <XProperty id="1124139264">
+          <Int>2</Int>
+        </XProperty>
+        <XProperty id="1124139265">
+          <Int>2</Int>
+        </XProperty>
+        <XProperty id="1124139266">
+          <Int>2</Int>
+        </XProperty>
+        <XProperty id="1124139267">
+          <Int>2</Int>
+        </XProperty>
+      </XProperties>
+    </MasterBar>
+    
+
+=== Bars (460) ===
+Bar[0]: <Bar id="0">
+      <Clef>G2</Clef>
+      <Voices>0 -1 -1 -1</Voices>
+    </Bar>
+    
+Bar[5]: <Bar id="5">
+      <Clef>G2</Clef>
+      <Voices>5 -1 -1 -1</Voices>
+    </Bar>
+    
+
+=== Voices (460) ===
+Voice[0]: <Voice id="0">
+      <Beats>0</Beats>
+    </Voice>
+    
+Voice[5]: <Voice id="5">
+      <Beats>2 3 4 5 6 7 8 9 10 11 12 13 6 14</Beats>
+    </Voice>
+    
+
+=== Beats (1213) ===
+Beat[0]: <Beat id="0">
+      <Rhythm ref="0" />
+      <Properties>
+        <Property name="PrimaryPickupVolume">
+          <Float>0.500000</Float>
+        </Property>
+        <Property name="PrimaryPickupTone">
+          <Float>0.500000</Float>
+        </Property>
+      </Properties>
+      <Dynamic>F</Dynamic>
+    </Beat>
+    
+Beat[1]: <Beat id="1">
+      <Rhythm ref="1" />
+      <Properties>
+        <Property name="PrimaryPickupVolume">
+          <Float>0.500000</Float>
+        </Property>
+        <Property name="PrimaryPickupTone">
+          <Float>0.500000</Float>
+        </Property>
+      </Properties>
+      <Dynamic>F</Dynamic>
+    </Beat>
+    
+Beats with <Notes> children: 0 / 1213
+!! NO beat has any <Notes> children !!
+Beat[0] direct children: ['Rhythm', 'Properties', 'Dynamic']
+  <Rhythm> children=0
+  <Properties> children=2
+  <Dynamic> children=0
+
+=== All <Note> elements in doc: 531 ===
+First <Note>: <Note id="0">
+      <InstrumentArticulation>0</InstrumentArticulation>
+      <Properties>
+        <Property name="ConcertPitch">
+          <Pitch>
+            <Step>D</Step>
+            <Accidental>#</Accidental>
+            <Octave>4</Octave>
+          </Pitch>
+        </Property>
+        <Property name="Fret">
+          <Fret>14</Fret>
+        </Property>
+        <Property name="String">
+          <String>2</String>
+        </Property>
+        <Property name="TransposedPitch">
+          <Pitch
+All <Notes> elements: 1158
+First <Notes> children tags: []
+First <Notes>: <Notes>0</Notes>
+    
+All <Beats> elements: 461
+All <Beat> elements: 1213
+All <Voices> elements: 461
+All <Voice> elements: 460

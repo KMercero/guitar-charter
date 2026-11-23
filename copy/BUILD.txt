@@ -1,0 +1,268 @@
+========================================================================
+GUITAR CHARTER — FULL BUILD INSTRUCTIONS
+Windows 10/11 x64
+========================================================================
+
+This file covers everything from a clean Windows machine to a tested
+GuitarCharter.exe, plus an optional GitHub release. Follow it top to
+bottom. DO NOT SKIP STEP 4 — running from source before packaging is
+the single biggest time-saver.
+
+------------------------------------------------------------------------
+0. WHAT YOU ARE BUILDING
+------------------------------------------------------------------------
+
+A Windows desktop EXE that turns an MP3 into a playable Clone Hero /
+Moonscraper guitar chart. Five stages:
+
+  1. Separate the guitar stem (Demucs htdemucs_6s, called as an
+     external CLI).
+  2. Estimate tempo (librosa.beat.beat_track).
+  3. Detect notes (Basic Pitch).
+  4. Map frets with a constraint-based dynamic program (this project's
+     contribution).
+  5. Write notes.chart + song.ini.
+
+The EXE bundles stages 2-5 (pure Python + model assets). Stage 1 calls
+the `demucs` command from PATH, deliberately keeping torch out of the
+EXE to avoid a multi-GB bundle and PyInstaller/torch DLL pain.
+
+------------------------------------------------------------------------
+1. PREREQUISITES (install in this order)
+------------------------------------------------------------------------
+
+  1. Python 3.11 — from python.org. During install, tick
+     "Add Python to PATH." Use 3.11, not 3.12; some ML wheels lag.
+
+  2. FFmpeg — from gyan.dev (the "release full" build). Unzip it, then
+     add its bin folder to your PATH:
+       Start -> "Edit the system environment variables"
+       -> Environment Variables -> Path -> New.
+     Demucs requires it.
+
+  3. Git (optional) — only needed for the GitHub release in Step 7.
+
+  4. A text editor — VS Code or Notepad. Useful for editing
+     build.spec if a build fails.
+
+Verify in a NEW PowerShell window (new, so PATH changes take effect):
+
+  python --version      # should say 3.11.x
+  ffmpeg -version       # should print a version banner
+
+If either fails, fix it before continuing.
+
+------------------------------------------------------------------------
+2. PUT THE FILES IN PLACE
+------------------------------------------------------------------------
+
+Create this exact structure in a folder called guitar-charter, and
+paste in each file's full contents:
+
+  guitar-charter/
+  ├── app.py
+  ├── requirements.txt
+  ├── README.md
+  ├── BUILD.txt              <- this file
+  ├── .gitignore
+  ├── core/
+  │   ├── __init__.py        <- empty file, but must exist
+  │   ├── mapper.py
+  │   ├── chart_writer.py
+  │   ├── pitch_basic.py
+  │   └── pipeline.py
+  ├── build/
+  │   └── build.spec
+  └── .github/
+      └── workflows/
+          └── release.yml
+
+Two common mistakes: forgetting the empty core/__init__.py (Python
+won't treat core as a package without it), and putting build.spec at
+the root instead of inside build/.
+
+NOTE ON THE .spec FILE: Windows may tell you "this is a Python source
+file." That's fine — a .spec IS a Python script that PyInstaller
+executes. Do not double-click it. You always build by passing it to
+PyInstaller from the terminal (Step 5). If you want the warning to go
+away cosmetically, right-click it -> Open with -> Notepad ->
+"Always use this app."
+
+------------------------------------------------------------------------
+3. CREATE THE VIRTUAL ENVIRONMENT AND INSTALL PACKAGES
+------------------------------------------------------------------------
+
+Open PowerShell IN the guitar-charter folder:
+
+  cd path\to\guitarCharter
+  python -m venv .venv
+  .venv\Scripts\activate
+  python -m pip install --upgrade pip
+
+Your prompt should now start with (.venv). If it doesn't, the activate
+step failed — you're probably not in the project folder.
+
+Install the Python dependencies:
+
+  pip install -r requirements.txt
+
+Then install the Demucs CLI SEPARATELY:
+
+  pip install demucs
+
+This is deliberately not in requirements.txt, because the EXE does not
+bundle torch — it shells out to the demucs command instead. Verify it
+is callable:
+
+  demucs --help
+
+If this errors, FFmpeg or demucs is broken. Fix it now; nothing
+downstream will work otherwise.
+
+------------------------------------------------------------------------
+4. RUN FROM SOURCE FIRST (DO NOT SKIP)
+------------------------------------------------------------------------
+
+  python app.py
+
+In the window: pick a SHORT MP3 (30-60s is plenty for testing), pick
+an output folder, hit "Chart Guitar". Watch the progress bar go
+5 -> 100. Confirm notes.chart and song.ini appear in the output folder.
+
+IF THIS STEP FAILS, STOP AND FIX IT. Paste the traceback and debug the
+source run. Packaging a broken app only hides the error behind a
+windowless EXE.
+
+Quick module-level checks if something is off (run these in a Python
+REPL from the project root, venv active):
+
+  # mapper: rising run should map to adjacent frets
+  from core.mapper import map_frets
+  print(map_frets([(0.0,60),(0.1,62),(0.2,64),(0.3,65),(0.4,67)]))
+
+  # chart writer: at 120 BPM, 0.5s = 1 beat = tick 192
+  from core.chart_writer import write_chart
+  write_chart("test/notes.chart", 120.0, [(0.0,0),(0.5,1),(1.0,2)], "Test", "Me")
+
+  # separation: returns a path to guitar.wav (or other.wav fallback)
+  from core.pipeline import separate_guitar
+  print(separate_guitar("test/song.mp3", "test/out"))
+
+For the real playability test, copy the original MP3 into the output
+folder, rename it song.ogg, and open the folder in Moonscraper. Check
+sync (notes on beats, not drifting), density (not a wall of false
+positives), and fret sanity (runs should look smooth, chords <= 3
+frets apart). It doesn't need to be perfect — it needs to be a
+playable draft.
+
+------------------------------------------------------------------------
+5. BUILD THE EXE
+------------------------------------------------------------------------
+
+From the project root (the folder containing app.py), with the venv
+active:
+
+  pyinstaller build/build.spec
+
+  - First build takes several minutes. Subsequent builds are faster.
+  - Output: dist\GuitarCharter.exe. Build intermediates land in
+    build\ — ignore them (gitignored).
+  - Running this from the wrong folder is the most common "no EXE
+    appeared" cause. PyInstaller writes build\ and dist\ RELATIVE TO
+    YOUR CURRENT DIRECTORY, so always cd to the project root first.
+
+------------------------------------------------------------------------
+6. TEST THE EXE
+------------------------------------------------------------------------
+
+Copy dist\GuitarCharter.exe somewhere OUTSIDE the project folder
+(e.g. Desktop) and double-click it. Run a full chart. Testing outside
+the project catches relative-path bugs the source run hides.
+
+If it closes instantly with no message, the windowed build is
+swallowing the traceback. Temporarily edit build/build.spec:
+
+  # change this line
+  exe = EXE(pyz, a.scripts, a.binaries, a.datas, [],
+            name='GuitarCharter', console=False, onefile=True)
+  # to console=True
+  exe = EXE(pyz, a.scripts, a.binaries, a.datas, [],
+            name='GuitarCharter', console=True, onefile=True)
+
+Rebuild, run from a terminal to read the error, fix, then switch back
+to console=False for the final build.
+
+THE TWO MOST LIKELY FAILURES:
+
+  - ModuleNotFoundError -> add the missing module name to
+    hiddenimports in build.spec, rebuild.
+
+  - "demucs" not found -> the EXE calls demucs from PATH, so the
+    machine running the EXE must have it installed. For a portfolio
+    EXE, the honest move is to DOCUMENT THIS REQUIREMENT in the README
+    rather than bundle torch (which would bloat the EXE enormously and
+    fight PyInstaller). Alternatively, ship a small installer that
+    installs demucs, but that's beyond scope.
+
+Basic Pitch model assets are the other known pain point. If the EXE
+can't find them, add their path to datas in build.spec, or implement
+download-on-first-run into %LOCALAPPDATA%\GuitarCharter\models (the
+README promises this; it's a small addition to pitch_basic.py).
+
+------------------------------------------------------------------------
+7. (OPTIONAL) RELEASE VIA GITHUB ACTIONS
+------------------------------------------------------------------------
+
+Once the local EXE works:
+
+  git init
+  git add .
+  git commit -m "initial"
+  git remote add origin <your-repo-url>
+  git tag v0.1.0
+  git push origin main
+  git push origin v0.1.0
+
+The tag triggers .github/workflows/release.yml, which builds on
+windows-latest and attaches GuitarCharter.exe to a GitHub Release.
+Expect the FIRST CI RUN TO FAIL on the same hidden-import or
+model-asset issue you solved locally — apply the same fix to
+build.spec, push, and re-tag. This workflow is a strong portfolio
+signal (it shows you ship artifacts, not just code), so it's worth
+getting green.
+
+------------------------------------------------------------------------
+8. KNOWN LIMITATIONS (put these in the README)
+------------------------------------------------------------------------
+
+  - Windows x64 only. macOS/Linux need separate builds.
+  - Demucs must be installed on the machine running the EXE (it's
+    called from PATH).
+  - EXE size depends on whether Basic Pitch models are bundled; they
+    add hundreds of MB.
+  - Unsigned EXE may trigger SmartScreen ("More info -> Run anyway").
+  - Guitar separation and pitch detection are imperfect; generated
+    charts are drafts to refine in Moonscraper, not final charts.
+
+------------------------------------------------------------------------
+9. THE SHORT VERSION (CHEAT SHEET)
+------------------------------------------------------------------------
+
+  # prerequisites: Python 3.11 (on PATH), FFmpeg (on PATH)
+  cd path\to\guitar-charter
+  python -m venv .venv
+  .venv\Scripts\activate
+  pip install -r requirements.txt
+  pip install demucs
+  demucs --help                 # must work
+  python app.py                 # must produce a chart before packaging
+  pyinstaller build/build.spec  # -> dist\GuitarCharter.exe
+  # test the EXE from a different folder; if it fails silently,
+  # set console=True and rebuild
+
+The one rule that matters: GET python app.py WORKING BEFORE YOU RUN
+PYINSTALLER. Packaging is the last step, not the first.
+
+========================================================================
+END OF BUILD INSTRUCTIONS
+========================================================================
